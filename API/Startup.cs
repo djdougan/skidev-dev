@@ -5,14 +5,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
-using Core.Interfaces;
 using Infrastructure.Data;
 using API.Middleware;
-using Microsoft.AspNetCore.Mvc;
-using API.Errors;
-using System.Linq;
 using API.Extensions;
 
 namespace API
@@ -36,6 +30,13 @@ namespace API
             services.AddAutoMapper(typeof(MapperProfiles));
 
             services.AddControllers();
+            services.AddCors(options=>{
+                options.AddPolicy("SkinetCorsPolicy", policy=>{
+                    policy.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .WithOrigins("https://localhost:4200", "https://example.com");
+                });
+            });
 
             
           
@@ -56,6 +57,8 @@ namespace API
 
             app.UseRouting();
 
+            app.UseCors("SkinetCorsPolicy");
+            
             app.UseAuthorization();
 
             app.UseSwaggerDocumentation();
