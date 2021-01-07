@@ -403,8 +403,6 @@ npm-debug.log
 yarn-error.log
 testem.log
 /typings
-server*.crt
-server*.key
 
 # System Files
 .DS_Store
