@@ -69,7 +69,7 @@ namespace API.Controllers
         [HttpGet("types")]
         public async Task<ActionResult<IReadOnlyList<ProductType>>> GetProductsTypes(){
 
-            var types = await _brandRepo.ListAllAsync();
+            var types = await _typeRepo.ListAllAsync();
             return Ok(types);
         }
 

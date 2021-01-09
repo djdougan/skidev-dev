@@ -7,3 +7,4 @@ export interface IPagination {
     count: number;
     data: IProduct[];
   }
+
