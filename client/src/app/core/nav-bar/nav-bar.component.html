@@ -5,6 +5,7 @@
     <a class="p-2" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
     <a class="p-2" routerLink="/shop" routerLinkActive="active">Shop</a>
     <a class="p-2" routerLink="/contact" routerLinkActive="active">Contact</a>
+    <a [routerLink]="['/test-error']" routerLinkActive="router-link-active">Errors</a>
   </nav>
   <div class="d-flex align-items-right">
     <a class="position-relative">

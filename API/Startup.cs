@@ -34,7 +34,7 @@ namespace API
                 options.AddPolicy("SkinetCorsPolicy", policy=>{
                     policy.AllowAnyHeader()
                     .AllowAnyMethod()
-                    .WithOrigins("https://localhost:4200", "https://example.com");
+                    .WithOrigins("https://localhost:4200");
                 });
             });
 
