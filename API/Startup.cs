@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.Data;
 using API.Middleware;
 using API.Extensions;
+using StackExchange.Redis;
+using Core.Interfaces;
 
 namespace API
 {
@@ -24,12 +26,20 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services){
             
+            services.AddAutoMapper(typeof(MapperProfiles));
+            services.AddControllers();
+            services.AddDbContext<StoreContext>(options=>options.UseSqlite(_configuration.GetConnectionString("DefaultConnection")));
+
             services.AddApplicationServices();
             services.AddSwaggerDocumentation();
-          
-            services.AddAutoMapper(typeof(MapperProfiles));
+            
 
-            services.AddControllers();
+            services.AddSingleton<IConnectionMultiplexer>(c => {
+                var configuration = ConfigurationOptions.Parse(_configuration.GetConnectionString("Redis"), true); 
+                return ConnectionMultiplexer.Connect(configuration);
+            });
+          
+
             services.AddCors(options=>{
                 options.AddPolicy("SkinetCorsPolicy", policy=>{
                     policy.AllowAnyHeader()
@@ -41,7 +51,6 @@ namespace API
             
           
 
-            services.AddDbContext<StoreContext>(options=>options.UseSqlite(_configuration.GetConnectionString("DefaultConnection")));
         }
     
 

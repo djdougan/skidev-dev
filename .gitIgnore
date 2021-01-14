@@ -98,6 +98,9 @@ StyleCopReport.xml
 *.svclog
 *.scc
 
+# Files built by Redis
+dump.rdb
+    
 # Chutzpah Test files
 _Chutzpah*
 

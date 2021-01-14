@@ -8,9 +8,9 @@
     <a [routerLink]="['/test-error']" routerLinkActive="router-link-active">Errors</a>
   </nav>
   <div class="d-flex align-items-right">
-    <a class="position-relative">
+    <a routerLink="/basket" class="position-relative">
       <i class="fa fa-shopping-cart fa-2x mr-5 text-dark"></i>
-      <div class="cart-no">5</div>
+      <div *ngIf="(basket$ | async) as basket" class="cart-no">{{basket.items.length}}</div>
     </a>
     <a href="#" class="btn btn-outline-secondary mr-2">Login</a>
     <a href="#" class="btn btn-outline-secondary mr-3">Sign up</a>
