@@ -10,6 +10,8 @@ using API.Middleware;
 using API.Extensions;
 using StackExchange.Redis;
 using Core.Interfaces;
+using Infrastructure.Identity;
+using Infrastructure.Services;
 
 namespace API
 {
@@ -26,11 +28,17 @@ namespace API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services){
             
+            services.AddScoped<ITokenService, TokenService>();
+            
             services.AddAutoMapper(typeof(MapperProfiles));
             services.AddControllers();
             services.AddDbContext<StoreContext>(options=>options.UseSqlite(_configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddDbContext<AppIdentityDbContext>(options=>{
+                options.UseSqlite(_configuration.GetConnectionString("IdentityConnection"));
+            });
+            
             services.AddApplicationServices();
+            services.AddIdentityServices(_configuration);
             services.AddSwaggerDocumentation();
             
 
@@ -67,7 +75,8 @@ namespace API
             app.UseRouting();
 
             app.UseCors("SkinetCorsPolicy");
-            
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseSwaggerDocumentation();
